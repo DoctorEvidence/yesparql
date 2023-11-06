@@ -1,7 +1,7 @@
 (ns yesparql.core
-  (:require [yesparql.util :refer [slurp-from-classpath]]
-            [yesparql.generate :refer [generate-var]]
-            [yesparql.queryfile-parser :refer [parse-tagged-queries]]))
+  (:require [yesparql.generate :refer [generate-var]]
+            [yesparql.queryfile-parser :refer [parse-tagged-queries]]
+            [yesparql.util :refer [slurp-from-classpath]]))
 
 ;; Most of the non-SPARQL code is directly from [Yesql](https://github.com/krisajenkins/yesql/blob/devel/src/yesql/core.clj) by Kris Jenkins
 

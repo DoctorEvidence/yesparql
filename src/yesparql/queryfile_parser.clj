@@ -2,9 +2,10 @@
   (:require [clojure.java.io :as io]
             [clojure.string :refer [join trim]]
             [instaparse.core :as instaparse]
+            [instaparse.transform :as transform]
+            [yesparql.instaparse-util :refer [process-instaparse-result]]
             [yesparql.types :refer [map->Query]]
-            [yesparql.util :refer [str-non-nil]]
-            [yesparql.instaparse-util :refer [process-instaparse-result]]))
+            [yesparql.util :refer [str-non-nil]]))
 
 (def parser
   (let [url (io/resource "yesparql/queryfile.bnf")]
@@ -31,7 +32,7 @@
   "Parses a string with Yesparql's defqueries syntax into a sequence of maps."
   [text]
   (process-instaparse-result
-   (instaparse/transform
+   (transform/transform
     parser-transforms
     (instaparse/parses parser
                        (str text "\n") ;;; TODO This is a workaround for files with no end-of-line marker.

@@ -1,30 +1,40 @@
 (ns yesparql.sparql
-  (:import
-   [java.lang IllegalArgumentException]
-   [java.net URL URI]
-   [org.apache.jena.graph Node]
-   [org.apache.jena.update
-    Update UpdateAction
-    UpdateFactory UpdateProcessor
-    UpdateRequest UpdateExecutionFactory]
-   [org.apache.jena.rdf.model Model
-    StmtIterator Statement Resource Property
-    RDFNode Resource Literal]
-   [org.apache.jena.shared PrefixMapping]
-   [org.apache.jena.query Dataset]
-   [org.apache.jena.sparql.resultset RDFOutput]
-   [org.apache.jena.rdf.model ModelFactory]
-   [org.apache.jena.datatypes BaseDatatype]
-   [org.apache.jena.graph Node Node_Literal]
-   [org.apache.jena.sparql.core Var ResultBinding]
-   [org.apache.jena.query
-    Query QuerySolution QueryExecution Syntax
-    QueryExecutionFactory QueryFactory QuerySolutionMap
-    ParameterizedSparqlString ResultSetFactory
-    ResultSetRewindable ResultSet ResultSetFormatter]))
+  (:import [java.lang IllegalArgumentException]
+           [java.net URI URL]
+           [java.io ByteArrayOutputStream]
+           [org.apache.jena.datatypes BaseDatatype]
+           [org.apache.jena.graph Node]
+           [org.apache.jena.graph Node Node_Literal]
+           [org.apache.jena.query Dataset]
+           [org.apache.jena.query
+            ParameterizedSparqlString
+            Query
+            QueryExecution
+            QueryExecutionFactory
+            QueryFactory
+            ResultSet
+            ResultSetFactory
+            ResultSetFormatter
+            ResultSetRewindable
+            Syntax]
+           [org.apache.jena.rdf.model
+            Literal
+            Model
+            RDFNode
+            Statement]
+           [org.apache.jena.rdf.model ModelFactory]
+           [org.apache.jena.shared PrefixMapping]
+           [org.apache.jena.sparql.core ResultBinding Var]
+           [org.apache.jena.sparql.resultset RDFOutput]
+           [org.apache.jena.update
+            UpdateExecutionFactory
+            UpdateFactory
+            UpdateProcessor
+            UpdateRequest]))
 
-(defn ^java.io.ByteArrayOutputStream output-stream []
-  (java.io.ByteArrayOutputStream.))
+(defn output-stream
+  ^ByteArrayOutputStream []
+  (ByteArrayOutputStream.))
 
 (defn reset-if-rewindable!
   "Resets a `RewindableResulSet`
@@ -137,8 +147,8 @@
 
 (defn keyword-str [kw] (if (keyword? kw) (name kw) kw))
 
-(defn ^Literal clj->literal
-  [{:keys [value type lang]}]
+(defn clj->literal
+  ^Literal [{:keys [value type lang]}]
   (cond
     type (.createTypedLiteral
           default-model value (BaseDatatype. ^String (str type)))
@@ -147,11 +157,11 @@
     :else (.createTypedLiteral
            default-model value)))
 
-(defn ^ParameterizedSparqlString parameterized-query
-  [^String statement]
+(defn parameterized-query
+  ^ParameterizedSparqlString [^String statement]
   (ParameterizedSparqlString. statement))
 
-(defn ^ParameterizedSparqlString query-with-bindings
+(defn query-with-bindings
   "The `query` can be provided with a map of `bindings`.
    Each binding is a String->URL, String->URI, String->Node or String->RDFNode.
    Any other type (e.g. String, Float) will be set as Literal.
@@ -161,7 +171,7 @@
    which will be coerced to the appropriate `Literal` automatically.
 
    Does not warn when setting a binding that does not exist."
-  [^ParameterizedSparqlString pq ^PrefixMapping prefixes bindings]
+  ^ParameterizedSparqlString [^ParameterizedSparqlString pq ^PrefixMapping prefixes bindings]
   (doall
    (map
     (fn [[var resource]]
@@ -418,10 +428,10 @@
    ^UpdateRequest update
    ^Dataset connection))
 
-(defn ^UpdateRequest as-update
-  ([^String ustr]
+(defn as-update
+  (^UpdateRequest [^String ustr]
    (as-update Syntax/defaultUpdateSyntax ustr))
-  ([^Syntax syntax ^String qstr]
+  (^UpdateRequest [^Syntax syntax ^String qstr]
    (UpdateFactory/create qstr syntax)))
 
 (defn update!

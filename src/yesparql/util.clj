@@ -1,7 +1,6 @@
 (ns yesparql.util
   (:require [clojure.java.io :as io]
-            [clojure.string :as string]
-            [clojure.pprint :refer [pprint]])
+            [clojure.string :as string])
   (:import [java.io FileNotFoundException]))
 
 (defn underscores-to-dashes
