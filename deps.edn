@@ -1,13 +1,32 @@
 {:paths ["src" "resources"]
  :deps
- {cider/cider-nrepl {:mvn/version "0.25.9"}
-  instaparse/instaparse {:mvn/version "1.4.1"}
-  org.apache.jena/jena-core {:mvn/version "4.3.1"}
-  org.apache.jena/jena-arq {:mvn/version "4.3.1"}
-  org.apache.jena/jena-tdb {:mvn/version "4.3.1"}}
- :aliases {:test {:extra-paths []
-                  :extra-deps
-                  {expectations/expectations {:mvn/version "2.1.3"}}}}
+ {instaparse/instaparse {:mvn/version "1.4.12"}
+  org.apache.jena/jena-core {:mvn/version "4.10.0"}
+  org.apache.jena/jena-arq {:mvn/version "4.10.0"}
+  org.apache.jena/jena-tdb {:mvn/version "4.10.0"}}
+ :aliases {:dev
+           {:extra-deps
+            {cider/cider-nrepl {:mvn/version "0.43.0"}}}
+           :test/run
+           {:extra-paths ["test"]
+            :extra-deps {lambdaisland/kaocha {:mvn/version "1.77.1236"}
+                         expectations/expectations {:mvn/version "2.1.10"}}
+            :main-opts   ["-m" "kaocha.runner"]
+            :exec-fn kaocha.runner/exec-fn
+            :exec-args {:fail-fast? true
+                        :randomize? false}}
+
+           ;; Kaocha test runner in watch mode
+           ;; clojure -X:test/watch
+           :test/watch
+           {:extra-paths ["test"]
+            :extra-deps {lambdaisland/kaocha {:mvn/version "1.77.1236"}
+                         expectations/expectations {:mvn/version "2.1.10"}}
+            :main-opts   ["-m" "kaocha.runner" "--watch" "--fail-fast" "--skip-meta" ":slow"]
+            :exec-fn kaocha.runner/exec-fn
+            :exec-args {:watch? true
+                        :randomize? false
+                        :fail-fast? true}}}
  :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
              "clojars" {:url "https://repo.clojars.org/"}
              "oss-snapshots-repo" {:url "https://oss.sonatype.org/content/groups/public"}}}

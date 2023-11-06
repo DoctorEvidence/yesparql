@@ -253,6 +253,22 @@ When executing against TDB it is recommended to use [transactions](https://jena.
 to prevent against data corruption.
 You can set the flags yourself on the `Dataset` or use the `with-transaction` macro, although support for this is somewhat lacking.
 
+## Running tests
+
+We use [kaoch test runner](https://github.com/lambdaisland/kaocha)
+
+See https://practical.li/clojure/testing/test-runners/kaocha-test-runner/#run-kaocha
+
+
+```shell
+
+clojure -X:test/run
+
+clojure -X:test/run :fail-fast? false
+
+```
+
+
 ## TODO
 - Authentication support for SPARQL Endpoints
 - Support [SPARQL S-Expressions](https://jena.apache.org/documentation/notes/sse.html) (?)
