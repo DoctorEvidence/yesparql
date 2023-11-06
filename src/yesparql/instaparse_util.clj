@@ -1,12 +1,13 @@
 (ns yesparql.instaparse-util
-  (:require [instaparse.core :as instaparse])
+  (:require [instaparse.core :as instaparse]
+            [instaparse.failure :as failure])
   (:import [java.io StringWriter]))
 
 (defn process-instaparse-result
   [parse-results context]
   (if-let [failure (instaparse/get-failure parse-results)]
     (binding [*out* (StringWriter.)]
-      (instaparse.failure/pprint-failure failure)
+      (failure/pprint-failure failure)
       (throw (ex-info (str *out*)
                       failure)))
     (if (second parse-results)

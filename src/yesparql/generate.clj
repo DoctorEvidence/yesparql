@@ -1,13 +1,9 @@
 (ns yesparql.generate
-  (:require
-   [clojure.set :as set]
-   [clojure.string :refer [join lower-case]]
-   [yesparql.util :refer [create-root-var]]
-   [yesparql.sparql :as sparql]
-   [yesparql.types :refer [map->Query]])
-  (:import [yesparql.types Query]
-           [org.apache.jena.shared PrefixMapping PrefixMapping$Factory]
-           [org.apache.jena.query ParameterizedSparqlString Syntax]))
+  (:require [clojure.string :refer [join]]
+            [yesparql.sparql :as sparql]
+            [yesparql.util :refer [create-root-var]])
+  (:import [org.apache.jena.query Syntax]
+           [org.apache.jena.shared PrefixMapping]))
 
 (defn query-type
   [^String name]

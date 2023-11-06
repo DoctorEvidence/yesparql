@@ -1,16 +1,15 @@
 (ns yesparql.tdb
-  (:import
-   [org.apache.jena.query Dataset DatasetFactory]
-   [org.apache.jena.tdb TDBFactory TDBLoader StoreConnection TDB]))
+  (:import [org.apache.jena.query Dataset DatasetFactory]
+           [org.apache.jena.tdb TDBFactory]))
 
-(defn ^Dataset create-file-based
+(defn create-file-based
   "Creates a new TDB-backed `Dataset` in the `directory` (absolute path)"
-  [^String directory]
+  ^Dataset [^String directory]
   (TDBFactory/createDataset directory))
 
-(defn ^Dataset create-in-memory
+(defn create-in-memory
   "Create an in-memory, modifiable TDB `Dataset`"
-  []
+  ^Dataset []
   (TDBFactory/createDataset))
 
 (defn ^Dataset create-bare
